@@ -1,9 +1,11 @@
 import {getDataByAxios, getDataByHttps, getDataByReq} from "./src/req";
-import {getContent, getNextPageUrl, setCss, setHtml, setJsonData, setTxt} from "./src/save";
+import {getContent, getNextPageUrl, setCss, setHtml, setJson, setJsonData, setTxt} from "./src/save";
 
 const catalogUrl = "https://wap.dingdianku.com/70_70792/all.html";
 let dataJson = require('./data');
+let $cookie = require('./data/cookie');
 const fs = require('fs');
+const readline = require('readline');
 
 const TYPES = {
     req: "req",
@@ -130,9 +132,10 @@ function mergeTxt(from, to) {
 }
 
 function main() {
-    setTxt('all', mergeTxt(116, 118));
+    // setTxt('all', mergeTxt(116, 118));
     // fixDownload(287);
     // download(301, 500);
+    readTxt(144);
 }
 
 function fixDownload(index) {
@@ -152,6 +155,51 @@ function download(from, to) {
     //     }
     //     i++;
     // }, 50);
+}
+
+function readTxt() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        prompt: '请输入命令>'
+    });
+
+    let currentIndex = $cookie.currentIndex || 116;
+    let cookieUrl = 'cookie';
+
+    rl.prompt();
+    rl.on('line', answer => {
+        switch (answer.trim()) {
+            case 'hello':
+                console.log(answer + ' evbd');
+                break;
+            case 'n':
+                currentIndex++;
+                console.log(mergeTxt(currentIndex, currentIndex));
+                setJson(cookieUrl, {currentIndex});
+                break;
+            case 'c':
+                console.log(currentIndex);
+                console.log(mergeTxt(currentIndex, currentIndex));
+                setJson(cookieUrl, {currentIndex});
+                break;
+            case 'close':
+                rl.close();
+                break;
+            default:
+                const str = +answer.trim();
+                if (str > 0) {
+                    currentIndex = str;
+                    console.log(mergeTxt(currentIndex, currentIndex));
+                    setJson(cookieUrl, {currentIndex});
+                }
+                break;
+        }
+        rl.prompt();
+    }).on('close', () => {
+        console.log('再见！');
+        process.exit(0);
+    });
 }
 
 main();

@@ -10,7 +10,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "babel-node index.js",
     "debug": "babel-node --inspect index.js"
   },
   "devDependencies": {

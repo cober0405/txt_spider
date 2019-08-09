@@ -71,6 +71,19 @@ function setCss(data) {
     })
 }
 
+
+function setJson(name, data) {
+    const json = JSON.stringify(data, null, '\t');
+    fs.writeFile(`./data/${name}.json`, json, err => {
+        if (err) {
+            console.log(err);
+        } else {
+            // console.log('已输入');
+        }
+    })
+}
+
+
 function setTxt(name, data) {
     fs.writeFile(`./data/${name}.txt`, data, err => {
         if (err) {
@@ -110,5 +123,6 @@ export {
     setCss,
     getContent,
     setTxt,
-    getNextPageUrl
+    getNextPageUrl,
+    setJson
 }
